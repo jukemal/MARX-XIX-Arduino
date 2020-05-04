@@ -1,31 +1,49 @@
 Open this folder in VSCode with PlatformIO extension installed.
 
-Simulating Arduino Process.
+To run this in arduino IDE first copy everything in 'lib' folder to Arduino folder in My Document.
 
-    SLOT_1,
-    SLOT_2,
-    SLOT_3,
-    SLOT_4,
-    SLOT_5,
-    SLOT_6,
-    SLOT_7,
-    SLOT_8,
-    SLOT_9,
-    SLOT_10,
-    SLOT_11,
-    SLOT_12,
-    SLOT_13,
-    SLOT_14,
-    SLOT_15,
-    SLOT_16,
-    SLOT_17,
-    SLOT_18
+Slot Values are stored in an integer array. Default value for array elements is zero.
 
-Slot names are defined in above format.
+    [ 0, 0, 0, 0 ]
 
-Slot are sorted in acceding order and combined with '*' between them are received.
-Maximum of 4 slots can be selected.
+When a order received array values are set to slot numbers.
 
-For example :
+    ex 1 : [ 2, 4, 11, 16 ]
+    
+    ex 2 : [ 1, 15, 17, 0 ]
+    
+    ex 3 : [ 5, 0, 0, 0 ]
 
-    SLOT_1*SLOT_6*SLOT_10*SLOT_16
+Alone with this 'isProcessing' boolean variable set to true.
+
+So course of action is to track the value of 'isProcessing' variable in loop function and if isProcessing' become true start the process.
+
+    ex :
+
+        void loop()
+        {
+            if (isProcessing)
+            {
+                //Start the process here
+                //Values for selected slots can be retrieved from slots array.
+
+                for (size_t i = 0; i < 4; i++)
+                {
+                    if (slots[i] > 0)   //If slot value is grater zero, that slot has been allocated.
+                    {
+                        Serial.println(slots[i]);
+                    }
+                } 
+            }
+
+            // When robot finish the task, set 'isProcessing' variable to false.
+
+            //Adding delay
+
+            digitalWrite(LED_BUILTIN, HIGH);
+            Serial.println("Arduino is Running...");
+            delay(1000);
+
+            digitalWrite(LED_BUILTIN, LOW);
+            delay(1000);
+        }
